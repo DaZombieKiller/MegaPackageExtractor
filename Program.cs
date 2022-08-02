@@ -95,6 +95,8 @@ static string GetOutputDirectory(string extension)
         ".CVP" => "Sounds",
         ".DSM" => "StaticMeshes",
         ".DPS" => "Particles",
+        ".XML" => "PhysicsAssets",
+        ".DCT" => "Music/Vis",
         _      => "System",
     };
 }
