@@ -65,10 +65,17 @@ unsafe
     {
         var output = GetOutputDirectory(Path.GetExtension(names[i]));
         var folder = Path.Combine(gameRoot, output);
+        var path   = Path.Combine(folder, names[i]);
         Directory.CreateDirectory(folder);
-        using var fs = File.OpenWrite(Path.Combine(folder, names[i]));
-        fs.SetLength(entries[i].Length);
-        fs.Write(data, entries[i].Offset, entries[i].Length);
+
+        using (var fs = File.OpenWrite(path))
+        {
+            fs.SetLength(entries[i].Length);
+            fs.Write(data, entries[i].Offset, entries[i].Length);
+        }
+
+        var fileTime = ((long)entries[i].HighDateTime << 32) | entries[i].LowDateTime;
+        File.SetLastWriteTimeUtc(path, DateTime.FromFileTimeUtc(fileTime));
     }
 }
 
@@ -130,21 +137,21 @@ static string ReadUnString(Stream source)
     return Encoding.UTF8.GetString(buffer, 0, length);
 }
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 struct MegaPackageHeader
 {
     public int Magic;   // 'A', 'G', 'E', 'M'
     public int Version; // 0
 }
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 struct MegaPackageEntry
 {
     public int Unknown0; // Always 0, version?
     public int Offset;
     public int Length;
-    public int Unknown1; // Flags?
-    public int Unknown2; // CRC?
+    public uint HighDateTime;
+    public uint LowDateTime;
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
