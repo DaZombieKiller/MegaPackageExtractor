@@ -160,5 +160,5 @@ struct MegaPackageEntry
 struct MegaPackageBlock
 {
     public int Offset;
-    public short Length;
+    public ushort Length;
 }
