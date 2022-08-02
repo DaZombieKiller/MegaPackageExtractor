@@ -89,7 +89,6 @@ static string GetOutputDirectory(string extension)
         ".U"   => "System",
         ".DNF" => "Maps",
         ".DTX" => "Textures",
-        ".DAT" => "Textures/Compiled",
         ".DMX" => "SkinMeshes",
         ".DFX" => "Sounds",
         ".CVP" => "Sounds",
