@@ -87,7 +87,6 @@ static string GetOutputDirectory(string extension)
     return extension.ToUpperInvariant() switch
     {
         ".U"   => "System",
-        ".DNF" => "Maps",
         ".DTX" => "Textures",
         ".DMX" => "SkinMeshes",
         ".DFX" => "Sounds",
